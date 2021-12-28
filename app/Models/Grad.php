@@ -10,6 +10,14 @@ class Grad extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'drzava',
+        'naziv',
+        'skraceniNaziv',
+        'postanskiBroj',
+    ];
+
+
     public function klubovi()
     {
         return $this->hasMany(Klub::class);

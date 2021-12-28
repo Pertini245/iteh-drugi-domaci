@@ -10,6 +10,14 @@ class Fudbaler extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'ime',
+        'prezime',
+        'jmbg',
+        'brojDres',
+        'klub_id'
+    ];
+
     public function klub()
     {
         return $this->belongsTo(Klub::class);
