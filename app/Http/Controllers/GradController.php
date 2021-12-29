@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\GradResource;
 use App\Models\Grad;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class GradController extends Controller
 {
@@ -14,7 +16,8 @@ class GradController extends Controller
      */
     public function index()
     {
-        //
+        $gradovi = Grad::all();
+        return GradResource::collection($gradovi);
     }
 
     /**
@@ -46,7 +49,7 @@ class GradController extends Controller
      */
     public function show(Grad $grad)
     {
-        //
+        return new GradResource($grad);
     }
 
     /**
@@ -69,7 +72,25 @@ class GradController extends Controller
      */
     public function update(Request $request, Grad $grad)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'drzava' => 'required|string',
+            'naziv' => 'required|string',
+            'skraceniNaziv' => 'required|string',
+            'postanskiBroj' => 'required|string'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors());
+        }
+
+        $grad->drzava = $request->drzava;
+        $grad->naziv = $request->naziv;
+        $grad->skraceniNaziv = $request->skraceniNaziv;
+        $grad->postanskiBroj = $request->postanskiBroj;
+
+        $grad->save();
+
+        return response()->json(['Grad je izmenjen!', new GradResource($grad)]);
     }
 
     /**
@@ -80,6 +101,7 @@ class GradController extends Controller
      */
     public function destroy(Grad $grad)
     {
-        //
+        $grad->delete();
+        return response()->json('Grad je obrisan!');
     }
 }
