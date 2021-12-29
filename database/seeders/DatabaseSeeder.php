@@ -3,6 +3,10 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Database\Seeders\GradSeeder;
+use Database\Seeders\KlubSeeder;
+use Database\Seeders\FudbalerSeeder;
+
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,6 +17,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        $grad = new GradSeeder();
+        $grad->run();
+
+        $klub = new KlubSeeder();
+        $klub->run();
+
+        $fudbaler = new FudbalerSeeder();
+        $fudbaler->run();
     }
 }
